@@ -1,0 +1,28 @@
+[package]
+name = "trellis-toy-rs"
+version = "0.1.0"
+edition = "2018"
+authors = ["Mauro Balbi <maurobalbi@bluewin.ch"]
+description = "Trellis toy for the little one "
+keywords = ["no-std", "arm", "cortex-m", "embedded-hal"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/maurobalbi/trellis-toy-rs"
+readme = "README.md"
+
+[dependencies]
+cortex-m = "~0.6"
+embedded-hal = "0.2.3"
+neotrellis = { git = "https://github.com/maurobalbi/neotrellis-rs", branch = "main" }
+feather_m4 = { git = "https://github.com/atsamd-rs/atsamd"}
+panic-halt = "0.2"
+
+[dev-dependencies]
+panic-semihosting = "0.5"
+cortex-m-semihosting = "0.3"
+smart-leds = "0.3.0"
+ws2812-timer-delay = "0.3.0"
+
+[profile.release]
+debug = true
+lto = true
+opt-level = "s"
