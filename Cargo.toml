@@ -12,7 +12,8 @@ readme = "README.md"
 [dependencies]
 cortex-m = "~0.6"
 embedded-hal = "0.2.3"
-neotrellis = { git = "https://github.com/maurobalbi/neotrellis-rs", branch = "main" }
+shared-bus = "0.2.2"
+neotrellis = { path = "../neotrellis-rs" }
 feather_m4 = { git = "https://github.com/atsamd-rs/atsamd"}
 panic-halt = "0.2"
 
