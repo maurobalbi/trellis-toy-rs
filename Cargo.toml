@@ -16,6 +16,8 @@ shared-bus = "0.2.2"
 neotrellis = { path = "../neotrellis-rs" }
 feather_m4 = { git = "https://github.com/atsamd-rs/atsamd"}
 panic-halt = "0.2"
+alloc-cortex-m = "0.4.1"
+cortex-m-rt = "0.6.12"
 
 [dev-dependencies]
 panic-semihosting = "0.5"
