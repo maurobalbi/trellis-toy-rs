@@ -14,10 +14,13 @@ cortex-m = "~0.6"
 embedded-hal = "0.2.3"
 shared-bus = "0.2.2"
 neotrellis = { path = "../neotrellis-rs" }
-feather_m4 = { git = "https://github.com/atsamd-rs/atsamd"}
+feather_m4 = { git = "https://github.com/atsamd-rs/atsamd", features = ["usb"]}
+usb-device = "0.2"
+usbd-serial = "0.1"
 panic-halt = "0.2"
 alloc-cortex-m = "0.4.1"
 cortex-m-rt = "0.6.12"
+atsamd-hal = { version ="0.12", features = ["samd51j", "samd51"]}
 
 [dev-dependencies]
 panic-semihosting = "0.5"
