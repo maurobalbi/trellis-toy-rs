@@ -220,6 +220,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "embedded-time"
+version = "0.12.0"
+source = "git+https://github.com/FluenTech/embedded-time#a38e1fec622286224e911c2155eee2fa1e1a3db8"
+dependencies = [
+ "num",
+]
+
+[[package]]
 name = "feather_m4"
 version = "0.7.0"
 source = "git+https://github.com/atsamd-rs/atsamd#acb53d0a3f4e6c5185669f973f157f1cce0c00e2"
@@ -330,6 +338,60 @@ dependencies = [
  "embedded-hal",
  "heapless",
  "num_enum",
+]
+
+[[package]]
+name = "num"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b7a8e9be5e039e2ff869df49155f1c06bd01ade2117ec783e56ab0932b67a8f"
+dependencies = [
+ "num-complex",
+ "num-integer",
+ "num-iter",
+ "num-rational",
+ "num-traits",
+]
+
+[[package]]
+name = "num-complex"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "747d632c0c558b87dbabbe6a82f3b4ae03720d0646ac5b7b4dae89394be5f2c5"
+dependencies = [
+ "num-traits",
+]
+
+[[package]]
+name = "num-integer"
+version = "0.1.44"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2cc698a63b549a70bc047073d2949cce27cd1c7b0a4a862d08a8031bc2801db"
+dependencies = [
+ "autocfg",
+ "num-traits",
+]
+
+[[package]]
+name = "num-iter"
+version = "0.1.42"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b2021c8337a54d21aca0d59a92577a029af9431cb59b909b03252b9c164fad59"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
+name = "num-rational"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "12ac428b1cb17fce6f731001d307d351ec70a6d202fc2e60f7d4c5e42d8f4f07"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
 ]
 
 [[package]]
@@ -519,6 +581,7 @@ dependencies = [
  "cortex-m-rt",
  "cortex-m-semihosting",
  "embedded-hal",
+ "embedded-time",
  "feather_m4",
  "neotrellis",
  "panic-halt",
