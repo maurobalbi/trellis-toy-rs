@@ -41,7 +41,7 @@ impl MenuComponent {
 impl Component for MenuComponent {
   fn update(&mut self, event: MultiEvent) -> () {
     if let MultiEvent {
-      coordinate: (0, 0),
+      coordinate: (x, y),
       event: Event::Rising,
     } = event
     {
@@ -73,7 +73,6 @@ impl Component for PaintComponent {
       event: Event::Rising,
     } = event
     {
-      debug(format!("abc {}", 1));
       let xi: usize = x.try_into().unwrap();
       let yi: usize = y.try_into().unwrap();
       let step = &mut self.steps[xi][yi];
