@@ -96,25 +96,6 @@ pub fn debug(mut text: String) {
 }
 
 fn poll_usb() {
-<<<<<<< Updated upstream
-    unsafe {
-        USB_BUS.as_mut().map(|usb_dev| {
-            USB_SERIAL.as_mut().map(|serial| {
-                usb_dev.poll(&mut [serial]);
-                let mut buf = [0u8; 64];
-
-                if let Ok(count) = serial.read(&mut buf) {
-                    for (i, c) in buf.iter().enumerate() {
-                        if i >= count {
-                            break;
-                        }
-                        serial.write(b"mauro").unwrap();
-                    }
-                };
-            });
-        });
-    };
-=======
   unsafe {
     USB_BUS.as_mut().map(|usb_dev| {
       USB_SERIAL.as_mut().map(|serial| {
@@ -132,7 +113,6 @@ fn poll_usb() {
       });
     });
   };
->>>>>>> Stashed changes
 }
 
 #[interrupt]
@@ -147,10 +127,5 @@ fn USB_TRCPT0() {
 
 #[interrupt]
 fn USB_TRCPT1() {
-<<<<<<< Updated upstream
-    poll_usb();
-}
-=======
   poll_usb();
 }
->>>>>>> Stashed changes
