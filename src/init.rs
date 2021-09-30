@@ -47,9 +47,9 @@ pub fn init<'a>() -> (
   };
 
   unsafe {
-    USB_SERIAL = Some(SerialPort::new(&bus_allocator));
+    USB_SERIAL = Some(SerialPort::new(bus_allocator));
     USB_BUS = Some(
-      UsbDeviceBuilder::new(&bus_allocator, UsbVidPid(0x16c0, 0x27dd))
+      UsbDeviceBuilder::new(bus_allocator, UsbVidPid(0x16c0, 0x27dd))
         .manufacturer("Fake company")
         .product("Serial port")
         .serial_number("TEST")
@@ -97,21 +97,19 @@ pub fn debug(mut text: String) {
 
 fn poll_usb() {
   unsafe {
-    USB_BUS.as_mut().map(|usb_dev| {
-      USB_SERIAL.as_mut().map(|serial| {
+    if let Some(usb_dev) = USB_BUS.as_mut() { USB_SERIAL.as_mut().map(|serial| {
         usb_dev.poll(&mut [serial]);
         let mut buf = [0u8; 64];
 
         if let Ok(count) = serial.read(&mut buf) {
-          for (i, c) in buf.iter().enumerate() {
+          for (i, _c) in buf.iter().enumerate() {
             if i >= count {
               break;
             }
             serial.write(b"mauro").unwrap();
           }
         };
-      });
-    });
+      }); }
   };
 }
 

@@ -1,14 +1,14 @@
 use alloc::rc::Rc;
 use alloc::vec;
 
-use crate::init::debug;
+
 use core::cell::RefCell;
 use core::convert::TryInto;
 
 use neotrellis::{Color, Event, MultiEvent};
 
 pub trait Component {
-  fn update(&mut self, event: MultiEvent) -> ();
+  fn update(&mut self, event: MultiEvent);
   fn render(&self) -> [[Option<Color>; 8]; 8];
 }
 
@@ -39,9 +39,9 @@ impl MenuComponent {
 }
 
 impl Component for MenuComponent {
-  fn update(&mut self, event: MultiEvent) -> () {
+  fn update(&mut self, event: MultiEvent) {
     if let MultiEvent {
-      coordinate: (x, y),
+      coordinate: (_x, _y),
       event: Event::Rising,
     } = event
     {
@@ -67,7 +67,7 @@ struct PaintComponent {
 }
 
 impl Component for PaintComponent {
-  fn update(&mut self, event: MultiEvent) -> () {
+  fn update(&mut self, event: MultiEvent) {
     if let MultiEvent {
       coordinate: (x, y),
       event: Event::Rising,
@@ -82,7 +82,7 @@ impl Component for PaintComponent {
         *step += 1;
       }
     }
-    ()
+    
   }
 
   fn render(&self) -> [[Option<Color>; 8]; 8] {

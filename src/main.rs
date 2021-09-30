@@ -69,7 +69,7 @@ fn main() -> ! {
         .set_led_color((x, y), wheel((x + 8 * y) * 4), &mut delay)
         .unwrap();
       multi.show(&mut delay).unwrap();
-      delay.delay_ms(45 as u32);
+      delay.delay_ms(45_u32);
     }
   }
 
@@ -79,7 +79,7 @@ fn main() -> ! {
         .set_led_color((x, y), Color::rgb(0, 0, 0), &mut delay)
         .unwrap();
       multi.show(&mut delay).unwrap();
-      delay.delay_ms(45 as u32);
+      delay.delay_ms(45_u32);
     }
   }
   multi.show(&mut delay).unwrap();
