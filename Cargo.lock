@@ -48,7 +48,7 @@ version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "868f22ff864d664efd9a0134cad0905d918f62f3b14d7761ca6d64bdcb1df96b"
 dependencies = [
- "atsamd51j 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "atsamd51j 0.9.0",
  "bitfield",
  "cortex-m 0.6.7",
  "embedded-hal",
@@ -61,10 +61,11 @@ dependencies = [
 
 [[package]]
 name = "atsamd-hal"
-version = "0.12.0"
-source = "git+https://github.com/atsamd-rs/atsamd#acb53d0a3f4e6c5185669f973f157f1cce0c00e2"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eb5dce6169ab96f922232f87f2f301429bd947ff417cd6695b4ad1e1c5b83a01"
 dependencies = [
- "atsamd51j 0.9.0 (git+https://github.com/atsamd-rs/atsamd)",
+ "atsamd51j 0.10.0",
  "bitfield",
  "bitflags",
  "cortex-m 0.6.7",
@@ -95,8 +96,9 @@ dependencies = [
 
 [[package]]
 name = "atsamd51j"
-version = "0.9.0"
-source = "git+https://github.com/atsamd-rs/atsamd#acb53d0a3f4e6c5185669f973f157f1cce0c00e2"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "515d8cf370300027a7a667770ce9c123d425437f6550da4d6f4be68f9374bb58"
 dependencies = [
  "bare-metal",
  "cortex-m 0.6.7",
@@ -127,9 +129,9 @@ checksum = "46afbd2983a5d5a7bd740ccb198caf5b82f45c40c09c0eed36052d91cb92e719"
 
 [[package]]
 name = "bitflags"
-version = "1.2.1"
+version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
+checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bytemuck"
@@ -210,6 +212,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "dwt-systick-monotonic"
+version = "0.1.0-rc.1"
+source = "git+https://github.com/rtic-rs/dwt-systick-monotonic#762acdd8edb2d159b121444b2a78739806274c80"
+dependencies = [
+ "cortex-m 0.7.3",
+ "rtic-monotonic",
+]
+
+[[package]]
 name = "embedded-hal"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -228,11 +239,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "feather_m4"
-version = "0.7.0"
-source = "git+https://github.com/atsamd-rs/atsamd#acb53d0a3f4e6c5185669f973f157f1cce0c00e2"
+name = "embedded-time"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d7a4b4d10ac48d08bfe3db7688c402baadb244721f30a77ce360bd24c3dffe58"
 dependencies = [
- "atsamd-hal 0.12.0 (git+https://github.com/atsamd-rs/atsamd)",
+ "num",
+]
+
+[[package]]
+name = "feather_m4"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "00a77c4a6f5516900af87eef8ab7fdb726de08e91dd55a70c049e619a785bc9c"
+dependencies = [
+ "atsamd-hal 0.13.0",
  "cortex-m 0.6.7",
  "cortex-m-rt",
  "embedded-hal",
@@ -492,6 +513,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "rtic-monotonic"
+version = "0.1.0-rc.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d337abf8372869b326af4b0d612f82d934d6d2bcc700908c367a2c7e8db34ba7"
+dependencies = [
+ "embedded-time 0.12.1",
+]
+
+[[package]]
 name = "rustc_version"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -576,12 +606,14 @@ name = "trellis-toy-rs"
 version = "0.1.0"
 dependencies = [
  "alloc-cortex-m",
- "atsamd-hal 0.12.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "atsamd-hal 0.12.0",
+ "atsamd51j 0.9.0",
  "cortex-m 0.6.7",
  "cortex-m-rt",
  "cortex-m-semihosting",
+ "dwt-systick-monotonic",
  "embedded-hal",
- "embedded-time",
+ "embedded-time 0.12.0",
  "feather_m4",
  "neotrellis",
  "panic-halt",

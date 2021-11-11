@@ -1,20 +1,33 @@
 use alloc::rc::Rc;
 use alloc::vec;
 
-
+use crate::init::debug;
+use crate::Context;
 use core::cell::RefCell;
 use core::convert::TryInto;
+
+use crate::gol::GoL;
 
 use neotrellis::{Color, Event, MultiEvent};
 
 pub trait Component {
-  fn update(&mut self, event: MultiEvent);
+  fn update(&mut self, event: Option<MultiEvent>, context: &Context);
   fn render(&self) -> [[Option<Color>; 8]; 8];
 }
 
+#[derive(Debug)]
 struct Exit {
-  elapsed: usize,
+  exit_presses: [u32; 3],
   count: u8,
+}
+
+impl Default for Exit {
+  fn default() -> Exit {
+    Exit {
+      exit_presses: [u32::MAX; 3],
+      count: 0,
+    }
+  }
 }
 
 pub struct MenuComponent {
@@ -24,40 +37,70 @@ pub struct MenuComponent {
 }
 
 impl MenuComponent {
-  pub fn new() -> Self {
+  pub fn new(context: &Context) -> Self {
     let paint = Rc::new(RefCell::new(PaintComponent { steps: [[0; 8]; 8] }));
+    let gol = Rc::new(RefCell::new(GoL::new(context)));
 
     Self {
       current_component: None,
-      exit: Exit {
-        elapsed: 0,
-        count: 0,
-      },
-      components: vec![paint],
+      exit: Exit::default(),
+      components: vec![paint, gol],
     }
   }
 }
 
 impl Component for MenuComponent {
-  fn update(&mut self, event: MultiEvent) {
-    if let MultiEvent {
-      coordinate: (_x, _y),
-      event: Event::Rising,
-    } = event
-    {
-      self.current_component = Some(Rc::clone(&self.components[0]));
+  fn update(&mut self, event: Option<MultiEvent>, context: &Context) {
+    if let Some(event) = event {
+      match (self.current_component.as_ref(), event) {
+        (_, MultiEvent {
+          coordinate: (0, 0),
+          event: Event::Rising,
+        }) => {
+          self.exit.count += 1;
+          self.exit.exit_presses[2] = self.exit.exit_presses[1];
+          self.exit.exit_presses[1] = self.exit.exit_presses[0];
+          self.exit.exit_presses[0] = context.timer;
+        }
+        (None, MultiEvent {
+          coordinate: (1, 2),
+          event: Event::Rising,
+        }) => self.current_component = Some(Rc::clone(&self.components[0])),
+        (None, MultiEvent {
+          coordinate: (1, 3),
+          event: Event::Rising,
+        }) => {
+          self.components[1] = Rc::new(RefCell::new(GoL::new(context)));
+          self.current_component = Some(Rc::clone(&self.components[1]))
+        }
+        _ => (),
+      }
+    }
+
+    // debug(format! {"counter: {:?}, {:?} timer:{:?}", self.exit, self.exit_presses, timer});
+    if self.exit.count > 2 {
+      if context.timer - self.exit.exit_presses[2] < 20 {
+        self.current_component = None;
+      }
+      self.exit = Exit::default(); //ToDo: Sometimes 5 clicks needed to escape
     }
 
     match &self.current_component {
-      Some(component) => component.borrow_mut().update(event),
+      Some(component) => component.borrow_mut().update(event, context),
       None => (),
     }
   }
 
+  
   fn render(&self) -> [[Option<Color>; 8]; 8] {
+    let mut menu_render = [[Some(Color::rgb(0, 0, 0)); 8]; 8];
+
+    menu_render[1][2] = Some(Color::rgb(0,0,255));
+    menu_render[1][3] = Some(Color::rgb(0,255,0));
+
     match &self.current_component {
       Some(component) => component.borrow().render(),
-      None => [[Some(Color::rgb(0, 0, 10)); 8]; 8],
+      None => menu_render,
     }
   }
 }
@@ -67,11 +110,11 @@ struct PaintComponent {
 }
 
 impl Component for PaintComponent {
-  fn update(&mut self, event: MultiEvent) {
-    if let MultiEvent {
+  fn update(&mut self, event: Option<MultiEvent>, context: &Context) {
+    if let Some(MultiEvent {
       coordinate: (x, y),
       event: Event::Rising,
-    } = event
+    }) = event
     {
       let xi: usize = x.try_into().unwrap();
       let yi: usize = y.try_into().unwrap();
@@ -82,7 +125,6 @@ impl Component for PaintComponent {
         *step += 1;
       }
     }
-    
   }
 
   fn render(&self) -> [[Option<Color>; 8]; 8] {
